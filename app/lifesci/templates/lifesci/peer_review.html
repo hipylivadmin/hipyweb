@@ -1,0 +1,77 @@
+{% extends "front/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+<!-- main.css to head -->
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/lifesci.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="page-section" id="event">
+    <section class="container">
+        <a href="/"><img class="logo" src="{% static 'img/navbar-logo.png' %}" alt="HiPy Logo"></a>
+        {% if question.previous %}
+            <a href="/lifesci/question/{{ question.previous.id }}">< Previous</a>
+        {% else %}
+            <a href="/lifesci">< Previous </a>
+        {% endif %}
+        {% if complete %}
+            {% if not question.next.id %}
+            | <a href="/lifesci/">Next ></a>
+            {% else %}
+            | <a href="/lifesci/question/{{ question.next.id }}">Next ></a>
+            {% endif %}
+        {% endif %}
+        <br>
+        <br>
+        <p><u><a href="/lifesci/logout">[Logout]</a></u></p>
+  
+        
+        
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Peer Marking</h1>
+                <h2>{{ question.title }}</h2>
+                              
+                <div>
+                    <p>One of your peers has submitted the following figure. Please use the rubric to determine whether this figure should be accepted or rejected.</p>
+                </div>
+
+                <div>
+                    <img src="{{ answer.figure.url }}" alt="Figure" style="width:100%">
+                </div>
+            </div>
+            <div class="col-md-6">
+
+                
+                <h3>Rubric</h3>
+                <hr style="border: none; height: 2px; background-color: white;">
+                <div>{{ answer.question.figure_rubric|safe }}</div>
+                <p>If the answer is "no" for any of the rubric criteria above please leave constructive feedback and then submit without checking the "Pass peer review" box.</p>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    {{ peer_review_form|crispy }}
+                    <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+                
+                        
+
+
+    </section>
+    <div class="page-section" id="padding">
+        <section class="container">
+            {% if answer.question.image %}
+            <div class="image-block"></div>
+                <img class="event-thumb reg" src="{{ answer.question.image.url }}" alt="question-image">
+            </div>
+            {% endif %}
+        </section>
+    </div>
+
+
+{% endblock %}

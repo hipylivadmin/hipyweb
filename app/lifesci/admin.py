@@ -1,6 +1,21 @@
 from django.contrib import admin
 
-from .models import Human, Question, Answer, Resource
+from .models import Human, Question, Answer, Resource, PreloadedUser, Collaboration, PeerReview
+
+class PeerReviewAdmin(admin.ModelAdmin):
+    list_display = ("human", "answer", "pass_peer", "timestamp", "feedback")
+    search_fields = ("human",)
+    list_filter = ("human", "answer")
+
+class CollaborationAdmin(admin.ModelAdmin):
+     list_display = ("human", "collaborator", "question", "score", "timestamp")
+     search_fields = ("human",)
+     list_filter = ("human", "question")
+
+
+class PreloadedUserAdmin(admin.ModelAdmin):
+    list_display = ("user_id", "first_name", "last_name", "email")
+    search_fields = ["user_id", "first_name", "last_name", "email"]
 
 class HumanAdmin(admin.ModelAdmin):
 
@@ -14,7 +29,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class AnswerAdmin(admin.ModelAdmin):
     
-        list_display = ("human_slug", "event", "question", "correct", "time_submitted", "score", "submitted")
+        list_display = ("human_slug", "event", "question", "correct", "time_submitted", "answer_score", "figure_score", "submitted")
         search_fields = ["human_slug", "event", "question", "correct", "time_submitted", "score"]
 
         # add human.slug to list_display
@@ -33,3 +48,6 @@ admin.site.register(Human, HumanAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Resource, ResourceAdmin)
+admin.site.register(PreloadedUser, PreloadedUserAdmin)
+admin.site.register(Collaboration, CollaborationAdmin)
+admin.site.register(PeerReview)

@@ -26,13 +26,14 @@
             | <a href="/lifesci/question/{{ question.next.id }}">Next ></a>
             {% endif %}
         {% endif %}
-        
         <br>
         <br>
+        <p><u><a href="/lifesci/logout">[Logout]</a></u></p>
+  
         
         <div class="row">
             <div class="col-md-6">
-                <h1>Foundation: Code Nexus</h1>
+                <h1>Escape From Life</h1>
                 <h2>{{ question.title }}</h2>
                 {% if message %}
                     <div class="message-block">
@@ -45,7 +46,7 @@
                 {% if success %}
                     <div class="success-block">
                         <h3>Success!</h3>
-                        <p>Well done. You submitted the correct solution.</p>
+                        <p>{{ question.question_success }}</p>
                  
                         <p><button class="confetti-button btn btn-primary" onclick="confetti();">Click for reward</button></p>
 
@@ -65,17 +66,37 @@
                     </p>
                     {% if complete %}
                     <p><strong>Well done! You have completed this part. Your input was {{ answer.submitted }}.</strong></p>
+                    {% if answer.figure_pass %}
+                    <p><strong>Your figure passed a peer review.</strong></p>
+                    {% endif %}
+                    {% if answer.peer_reviewed and not answer.figure_pass %}
+                    <p><strong>Your figure did not pass a peer review. Resubmit your figure below.</strong></p>
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ figure_only_form|crispy }}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    <br>
+                    {% endif %}
+                    {% if not answer.peer_reviewed %}
+                    <p><strong>Your figure is awaiting peer review.</strong></p>
+                    {% endif %}
+                    <div>
+                        <a href="{{ answer.figure.url }}" target="_blank"><img src="{{ answer.figure.url }}" alt="Figure" class="example-image"></a>
+                    </div>
                     {% else %}
+                        {% if not success %}
                         <form method="POST" action="" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ answer_form|crispy }}
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                         <br>
-                        <br>    
+                        <br>
+                        {% endif %}   
                     {% endif %}
                 </div>
-
+                <br>
                 <div>
                     <h3>Sanity Check</h3>
                     <hr style="border: none; height: 2px; background-color: white;">
@@ -86,7 +107,7 @@
                 </div>
             </div>
             
-            <div class="col-md-6">
+            <div id="resources" class="col-md-6">
 
                 {% if resources %}
                     <h3>Resources</h3>
@@ -98,47 +119,115 @@
                     </ul>
                     
                     <br>
-                    <br>
                 {% endif %}
                 
                 
                 <h3>My Stats ({{ human.first_name }} {{ human.last_name }})</h3>
-                <p style="font-size: .8em;">Logged in via {{ social_account.provider }} | <a href="/lifesci/logout">Logout</a> </p>
-                <p style="font-size: .8em;">Your unique user slug is: {% if human.anonymous_user %}AnonUser{{human.id}}{% else %}{{human.slug}}{% endif %}</p>
+                <p style="font-size: .8em; display: none;">Logged in via {{ social_account.provider }} | <a href="/lifesci/logout">Logout</a> </p>
+                <p style="font-size: .8em; display: none">Your unique user slug is: {% if human.anonymous_user %}AnonUser{{human.id}}{% else %}{{human.slug}}{% endif %}</p>
                 <hr style="border: none; height: 2px; background-color: white;">
 
+           
+
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <table>
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Rank</th>
-                                <th>Score</th>
-                                <th>Mistakes</th>
+                                
+                                <th>Input</th>
+                                <th>Figure</th>
+                                <th>Collab.</th>
+                                <th>P.Reviews</th>
+                                <th>Total</th>
+        
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <th>Overall</th>
-                                <td class="right">{{ stats.rank }}</td>
-                                <td class="right">{{ stats.score }}</td>
-                                <td class="right">{{ stats.mistakes }}</td>
+                                
+                                <td class="right">{{ stats.input_score }}</td>
+                                <td class="right">{{ stats.figure_score }}</td>
+                                <td class="right">+{{ stats.collaborations }}</td>
+                                <td class="right">+{{ stats.peer_reviews }}</td>
+                                <td class="right">{{ stats.total_score }}</td>
+  
                             </tr>
                             <tr>
-                                <th>This part</th>
-                                <td class="right">{{ stats_part.rank }}</td>
-                                <td class="right">{{ stats_part.score }}</td>
-                                <td class="right">{{ stats_part.mistakes }}</td>
+                                <th>This.part</th>
+                                
+                                <td class="right">{{ stats_part.input_score }}</td>
+                                <td class="right">{{ stats_part.figure_score }}{% if not answer.peer_review and answer.correct %}*{% endif %}</td>
+                                <td class="right">+{{ stats_part.collaborations }}</td>
+                                <td class="right">+{{ stats_part.peer_reviews }}</td>
+                                <td class="right">{{ stats_part.total_score }}</td>
+             
                             </tr>
                             </tbody>
                         </table>
                     </div>
+
+                    {% if not answer.peer_review and answer.correct %}
+                    
+                    <div class="col-md-12"><br><p>*Your figure is awaiting peer review.</p></div>
+                    
+                    
+                    {% endif %}
+                    
+                    {% if not answer.correct %}
+                    
+                    <div class="col-md-12">
+                        <br>
+
+                        <p style="padding: 1px;">Available score: <strong><span id="availableScore">0</span></strong></p>
+                        <p style="display: none">Time since publication: <span id="counter">0 seconds</span></p>
+                        
+                    </div>
+                    {% endif %}
                 </div>
                 <br>
-                <br>
-                <h3>Leaderboard</h3>
+                
+                <h3>Collaborate</h3>
+                
                 <hr style="border: none; height: 2px; background-color: white;">
+                <p>Working with peers on this question?
+                Let them scan the code below. <strong>You will both receive an extra point for this question</strong>.</p>
+
+                <div class="row">
+                    <div class="col-md-5">
+                
+                        <img src="data:image/png;base64,{{collaboration_qr}}", alt="collaboration-qr-code" class="example-image">
+                        <!--<p style="font-size: 0.8em;"><u><a href="{{ collaboration_url }}" target="_blank">[Link]</a></u></p>-->
+                    </div>
+
+                    <div class="col-md-7">
+                        <table>
+                            <label>Your Collaborations:</label>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for collaboration in collaborations %}
+                                <tr>
+                                    <td>{{ collaboration.collaborator.slug }}    </td>
+                                    <td class="right">+{{ collaboration.score }}    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    
+                <br>
+                <!--                <h3>Leaderboard</h3>
+                <hr style="border: none; height: 2px; background-color: white;">
+                
+                </p>
                 <div class="row">
                     <div class="col-md-6">
                     <table>
@@ -185,7 +274,7 @@
 
                 </div>
                 </div>
-                <br><br>
+                <br><br>-->
             </div>
         </div>
 
@@ -207,4 +296,90 @@
 </div>
 
 
+{% endblock %}
+
+{% block js %}
+<script>
+    window.onload = function() {
+        // Get the publication date from the server
+        var pubDate = new Date("{{ question.pub_date.isoformat }}");
+        
+        console.log("{{ question.pub_date }}");
+        console.log("pubDate: " + pubDate);
+
+        // Function to calculate the time difference in seconds
+        function calculateTimeDifference() {
+            var currentTime = new Date();
+            var timeDifference = Math.floor((currentTime - pubDate) / 1000);
+            return timeDifference;
+        }
+
+        // Function to update the counter every second
+        function updateCounter() {
+            var counterElement = document.getElementById("counter");
+            var timeDifference = calculateTimeDifference();
+            counterElement.innerHTML = timeDifference + " seconds";
+
+            // Add an extra second every second
+            setTimeout(updateCounter, 1000);
+        }
+
+        // Start the counter
+        updateCounter();
+    }
+
+
+
+    window.onload = function() {
+        // Get the publication date from the server
+        var pubDate = new Date("{{ question.pub_date.isoformat }}");
+
+        var half_life = 604800;  // Half-life in seconds
+        var decay_const = Math.log(2) / half_life;  // Decay constant
+
+        // Function to calculate the score
+        function calculateScore(seconds) {
+            return 40 + 60 * (Math.exp(-decay_const * (seconds - half_life)));
+        }
+
+        // Function to update the score
+        function updateScore() {
+            var currentTime = new Date();
+            var seconds = Math.floor((currentTime - pubDate) / 1000);
+            var score = calculateScore(seconds);
+
+            var scoreElement = document.getElementById("availableScore");
+            scoreElement.innerHTML = score.toFixed(4);  // Round to 2 decimal places
+        }
+
+        // Update the score every second
+        setInterval(updateScore, 1000);
+
+        // Get the publication date from the server
+        var pubDate = new Date("{{ question.pub_date.isoformat }}");
+        
+        console.log("{{ question.pub_date }}");
+        console.log("pubDate: " + pubDate);
+
+        // Function to calculate the time difference in seconds
+        function calculateTimeDifference() {
+            var currentTime = new Date();
+            var timeDifference = Math.floor((currentTime - pubDate) / 1000);
+            return timeDifference;
+        }
+
+        // Function to update the counter every second
+        function updateCounter() {
+            var counterElement = document.getElementById("counter");
+            var timeDifference = calculateTimeDifference();
+            counterElement.innerHTML = timeDifference + " seconds";
+
+            // Add an extra second every second
+            setTimeout(updateCounter, 1000);
+        }
+
+        // Start the counter
+        updateCounter();
+    }
+</script>
 {% endblock %}

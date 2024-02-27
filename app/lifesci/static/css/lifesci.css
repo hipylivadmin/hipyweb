@@ -3,3 +3,16 @@ img.example-image {
     max-width:200px; 
     height: auto;
 }
+
+#id_feedback {
+    height: 50px;
+}
+
+a {
+    text-decoration: underline;
+}
+
+#resources ul {
+    list-style-type: none;
+    padding: 2px;
+}

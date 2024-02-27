@@ -19,13 +19,9 @@
         
         <div class="row">
             <div class="col-md-6">
-                <h1>Foundation: Code Nexus</h1>
+                <h1>Escape From Life</h1>
                 <h2>Epilogue</h2>
-                <p>You feel the wisdom of the Binary Sages flowing into your mind.</p>
-                <p>You reflect on your sense of accomplishment.</p>
-                <p>Armed with your new coding skills you feel ready to explore the rest of the galaxy.</p>
-                <p>"I'm reading a planet with an active biosphere within 10 parsecs of our current location", IVY informs you. "It appears that the dominant life-form is ... pandas."</p>
-                <p>You smile.</p>
+                
                 <br>
                 <div class="button-wrapper">
                     <button class="confetti-button btn btn-primary" onclick="confetti();">Click for reward</button>
@@ -43,54 +39,38 @@
                 <h3>My Stats: ({{ human.first_name }} {{human.last_name}})</h3>
                 <hr style="border: none; height: 2px; background-color: white;">
 
+             
+
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <table>
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Rank</th>
-                                <th>Score</th>
-                                <th>Mistakes</th>
+                                
+                                <th>Input</th>
+                                <th>Figure</th>
+                                <th>Collab.</th>
+                                <th>P.Reviews</th>
+                                <th>Total</th>
+        
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
                                 <th>Overall</th>
-                                <td class="right">{{ stats.rank }}</td>
-                                <td class="right">{{ stats.score }}</td>
-                                <td class="right">{{ stats.mistakes }}</td>
+                                
+                                <td class="right">{{ stats.input_score }}</td>
+                                <td class="right">{{ stats.figure_score }}</td>
+                                <td class="right">+{{ stats.collaborations }}</td>
+                                <td class="right">+{{ stats.peer_reviews }}</td>
+                                <td class="right">{{ stats.total_score }}</td>
+  
                             </tr>
+                            
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <br>
-                <br>
-                <h3>Leaderboard</h3>
-                <hr style="border: none; height: 2px; background-color: white;">
-                <div class="row">
-                    <div class="col-md-6">
-                    <table>
-                        <label>Overall:</label>
-                        <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Name</th>
-                                <th>Score</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for player in overall_leaderboard %}
-                            <tr>
-                                <td class="right">{{ player.rank }}    </td>
-                                <td>{{ player.human }}    </td>
-                                <td class="right">{{ player.score }}    </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
                 <div class="col-md-6">
                 
                     

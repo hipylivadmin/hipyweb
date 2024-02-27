@@ -19,22 +19,25 @@
         
         <div class="row">
             <div class="col-md-6">
-                <h1>Foundation: Code Nexus</h1>
+                <h1>Escape From Life</h1>
                 <div class="event-summary">
                     <p class="event-description">
-                        Welcome to the immersive world of <strong>Foundation: Code Nexus</strong>, a thrilling game inspired 
-                        by Isaac Asimov's iconic <u><a href="https://en.wikipedia.org/wiki/Foundation_series" target="_blank">Foundation</a></u> 
-                        series. Set in the vast Galactic Empire, you, the player, are tasked with unraveling the mysteries of the future by 
-                        mastering the fundamental language of the cosmos: code.
+                        Trapped within the labyrinth of the Life Sciences building, you must conquer a series of challenges that merge R coding and statistics in order to escape. 
+                        Decode data, unravel mysteries, and break free from the shadowy gatekeeper who haunts you throughout the building. 
+                        Begin your journey now. Can you <i>Escape From Life</i>?
                     </p>
-                    <p> 
-                        This resource is for absolute beginners who have never written a line of code before.
-                        There will be plenty of links to useful resources and tutorials to help you along the way.
-                        The challenges in the game are code agnostic, so you can use any language you like.
-                    </p>
+
+                    <p>Escape From Life represents the Quantitative Skills component of your BIOM103 module. You will need to complete <strong>all</strong> questions.</p>
+
                     <p>
-                        Ready to launch? Simply enter your name into the form and blast off with HiPy!
+                        Questions will be released on a weekly basis. Complete each question within 1 week to receive full marks (100 points).
+                        After 1 week the available score for each question will decay exponentially with a half-life of 1 week.
+                        The minimum available score for each question will be 40 points.
                     </p>
+
+                    <p>Work with your peers and record your collaborations to receive a maximum additional 10 points per question</p>
+
+                    
                 </div>
             </div>
             
@@ -51,12 +54,6 @@
                     
                         {% if human_form %}
                         <p>Welcome {{ user.first_name }}, please update your profile before getting started.</p>
-                            {% if errors %}
-                                <p>There was an error with your form. Please try again.</p>
-                                {% for error in errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            {% endif %}
                             <form method="post">
                                 {% csrf_token %}
                                 {{ human_form|crispy }}
