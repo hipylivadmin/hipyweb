@@ -1,11 +1,15 @@
 
 $(document).ready(function() {
     $('#changelist :checkbox').change(function() {
-        console.log('change');
-        // Save the current scroll position in the URL hash
-        window.location.hash = 'scrollPos=' + $(window).scrollTop();
-        // Click the input with name "_save" to submit the form
-        $('input[name="_save"]').click();
+        // If id is set
+        if (this.id) {
+            console.log('change');
+            // Save the current scroll position in the URL hash
+            window.location.hash = 'scrollPos=' + $(window).scrollTop();
+            // Click the input with name "_save" to submit the form
+            $('input[name="_save"]').click();
+        }
+        
     });
 
     // If a scroll position is saved in the URL hash, scroll to that position
