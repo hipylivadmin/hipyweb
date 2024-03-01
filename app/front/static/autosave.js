@@ -2,7 +2,8 @@
 $(document).ready(function() {
     $('#changelist :checkbox').change(function() {
         // If id is set
-        if (this.id) {
+        
+        if (this.id && this.id != 'action-toggle') {
             console.log('change');
             // Save the current scroll position in the URL hash
             window.location.hash = 'scrollPos=' + $(window).scrollTop();
