@@ -15,6 +15,7 @@ class RegistrationForm(forms.ModelForm):
         event = kwargs.pop('event')
         super(RegistrationForm, self).__init__(*args, **kwargs)
         self.fields['event'].initial = event
+        
         if not event.ask_for_track:
             self.fields['track'].widget = forms.HiddenInput()
         
@@ -29,6 +30,9 @@ class RegistrationForm(forms.ModelForm):
 
     # Do not show events field
     event = forms.ModelChoiceField(queryset=Event.objects.all(), widget=forms.HiddenInput())
+
+    # Do not show present field
+    present = forms.BooleanField(widget=forms.HiddenInput(), required=False)
 
 
     # Check uniqueness of email and event together
