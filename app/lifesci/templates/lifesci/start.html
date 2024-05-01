@@ -66,10 +66,12 @@
                     {% else %}
                     <p>To play, please identify yourself via one of these services:</p>
                     {% load socialaccount %}
-                    <form action="{% provider_login_url 'github' next='/lifesci' %}" method="post">
+                    
+                    <!-- <form action="{% provider_login_url 'github' next='/lifesci' %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-primary social-btn"type="submit">GitHub</button>
-                    </form>
+                    </form> -->
+
                     <form action="{% provider_login_url 'google' next='/lifesci' %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-primary social-btn"type="submit">Google</button>
