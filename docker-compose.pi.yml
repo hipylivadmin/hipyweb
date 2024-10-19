@@ -16,7 +16,6 @@ services:
       - DJANGO_ALLOWED_HOSTS=${DOMAIN}
     depends_on:
       - db
-      - redis
     container_name: app
 
   db:
