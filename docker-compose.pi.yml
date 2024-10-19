@@ -34,7 +34,7 @@ services:
       context: ./docker/proxy
     restart: always
     depends_on:
-      - hipy-app
+      - app
     ports:
       - 8080:80
       - 8443:443
