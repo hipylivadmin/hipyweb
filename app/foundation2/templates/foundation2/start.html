@@ -68,11 +68,7 @@
                         {% endif %}
                     {% else %}
                     <p>To play, please identify yourself via one of these services:</p>
-                    {% load socialaccount %}
-                    <form action="{% provider_login_url 'github' next='/foundation2' %}" method="post">
-                        {% csrf_token %}
-                        <button class="btn btn-primary social-btn"type="submit">GitHub</button>
-                    </form>
+        
                     <form action="{% provider_login_url 'google' next='/foundation2' %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-primary social-btn"type="submit">Google</button>

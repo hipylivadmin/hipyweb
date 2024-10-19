@@ -95,18 +95,18 @@ def get_collaboration_link(request, question, human):
         return None
 
 
-def github_callback(request):
-    # Handle the OAuth callback here...
+# def github_callback(request):
+#     # Handle the OAuth callback here...
 
-    # Then return a HTML page with some JavaScript code to close the popup window and refresh the original page
-    return HttpResponse("""
-        <html><body>
-        <script type="text/javascript">
-            window.opener.location.reload(true);  // refresh the original page
-            window.close();  // close the popup window
-        </script>
-        </body></html>
-    """)
+#     # Then return a HTML page with some JavaScript code to close the popup window and refresh the original page
+#     return HttpResponse("""
+#         <html><body>
+#         <script type="text/javascript">
+#             window.opener.location.reload(true);  // refresh the original page
+#             window.close();  // close the popup window
+#         </script>
+#         </body></html>
+#     """)
 
 def logout_view(request):
     # Log out the user

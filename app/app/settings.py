@@ -33,7 +33,7 @@ DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 ALLOWED_HOSTS = ['*', ] if DEBUG else os.environ.get("DJANGO_ALLOWED_HOSTS").split(',')
 
 if DEBUG:
-    SITE_ID = 1
+    SITE_ID = 2
 else:
     SITE_ID = 3
     ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
+    # 'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
     'front',
     'foundation',
@@ -172,8 +172,8 @@ AUTHENTICATION_BACKENDS = (
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
-SOCIALACCOUNT_PROVIDERS = {
-    'github': {
-        'ADAPTER': 'foundation2.adapters.MyGitHubOAuth2Adapter',
-    },
-}
+# SOCIALACCOUNT_PROVIDERS = {
+#     'github': {
+#         'ADAPTER': 'foundation2.adapters.MyGitHubOAuth2Adapter',
+#     },
+# }
