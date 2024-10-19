@@ -16,7 +16,7 @@ services:
       - DJANGO_ALLOWED_HOSTS=${DOMAIN}
     depends_on:
       - db
-    container_name: app
+    container_name: hipy-app
 
   db:
     image: postgres:13-alpine
@@ -34,10 +34,10 @@ services:
       context: ./docker/proxy
     restart: always
     depends_on:
-      - app
+      - hipy-app
     ports:
-      - 80:80
-      - 443:443
+      - 8080:80
+      - 8443:443
     volumes:
       - certbot-web:/vol/www
       - static-data:/vol/static
