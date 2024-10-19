@@ -60,33 +60,6 @@ services:
       - proxy
 
 
-  redis:
-    image: redis:alpine
-    platform: linux/arm64
-    container_name: redis
-    environment:
-      - SECRET_KEY=${SECRET_KEY}
-
-  celery:
-    restart: 'no'
-    build:
-      context: .
-    command: >
-      sh -c "celery -A app worker -l INFO"
-    volumes:
-      - static-data:/vol/web/
-    container_name: celery
-    environment:
-      - SECRET_KEY=${SECRET_KEY}
-      - DB_HOST=db
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASS}
-      - DJANGO_ALLOWED_HOSTS=${DOMAIN}
-    depends_on:
-      - db
-      - redis
-      - app 
 
 volumes:
   certbot-web:
