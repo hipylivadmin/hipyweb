@@ -1,5 +1,5 @@
 server {
-    listen 80;
+    listen 8080;
     server_name ${DOMAIN} www.${DOMAIN};
 
     location /.well-known/acme-challenge/ {
