@@ -28,6 +28,7 @@ urlpatterns = [
     path('foundation2/', include('foundation2.urls')),
     #path('lifesci/', include('lifesci.urls')),
     path('accounts/', include('allauth.urls')),
+    path('jurassichack/', include('jurassichack.urls'))
     
 ]
 

@@ -1,0 +1,26 @@
+{% extends "jurassichack/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<header class="jumbotron page-section" id="home">
+    <div class="container" >
+        <span class="main-logo">Jurassic Hack</span>
+
+        <form method="post" action="{% url 'jurassichack:index' %}">
+            {% csrf_token %}
+    
+            {{ form|crispy }}
+    
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+</header>
+
+
+
+
+{% endblock %}

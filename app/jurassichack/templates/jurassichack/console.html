@@ -1,0 +1,64 @@
+{% extends "jurassichack/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="jumbotron page-section" id="event">
+    <section class="container">
+
+        <span class="jurassic-hack-logo"><a href="/jurassichack">Jurassic Hack</a></span>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-6">
+
+                {% if message %}
+                    <p>{{ message|safe }}</p>
+                {% endif %}
+
+                <form method="post" action="{% url 'jurassichack:console' %}">
+                    {% csrf_token %}
+            
+                    {{ form|crispy }}
+            
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+                
+                
+            </div>
+
+            <div class="col-md-6">
+                {% if error %}
+                <p><strong>Your answer is incorrect. Try again.</strong></p>
+                    {{ error|safe }}
+                {% else %}
+                    <div>
+                        <table >
+                            <tbody>
+                                {% for key, value in rankings.items %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ key }}</td>
+                                    <td>{{ value }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                
+                
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+
+
+{% endblock %}
