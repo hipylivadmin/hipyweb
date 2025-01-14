@@ -15,8 +15,8 @@ server {
     listen 443 ssl;
     server_name www.hipy.org.uk;
 
-    ssl_certificate /etc/letsencrypt/live/canvaswizards.org.uk/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/canvaswizards.org.uk/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/hipy.org.uk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/hipy.org.uk/privkey.pem;
 
     include /etc/nginx/options-ssl-nginx.conf;
     ssl_dhparam /vol/proxy/ssl-dhparams.pem;
